@@ -89,9 +89,23 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
-    <Content Include="JavaScript\JavaScript2.js" />
     <Content Include="JavaScript\JavaScript.js" />
-    <Content Include="style\style2.css" />
+    <Content Include="Server\index.js" />
+    <Content Include="Server\node_modules\ws\browser.js" />
+    <Content Include="Server\node_modules\ws\index.js" />
+    <Content Include="Server\node_modules\ws\lib\buffer-util.js" />
+    <Content Include="Server\node_modules\ws\lib\constants.js" />
+    <Content Include="Server\node_modules\ws\lib\event-target.js" />
+    <Content Include="Server\node_modules\ws\lib\extension.js" />
+    <Content Include="Server\node_modules\ws\lib\limiter.js" />
+    <Content Include="Server\node_modules\ws\lib\permessage-deflate.js" />
+    <Content Include="Server\node_modules\ws\lib\receiver.js" />
+    <Content Include="Server\node_modules\ws\lib\sender.js" />
+    <Content Include="Server\node_modules\ws\lib\stream.js" />
+    <Content Include="Server\node_modules\ws\lib\subprotocol.js" />
+    <Content Include="Server\node_modules\ws\lib\validation.js" />
+    <Content Include="Server\node_modules\ws\lib\websocket-server.js" />
+    <Content Include="Server\node_modules\ws\lib\websocket.js" />
     <Content Include="style\style.css" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -107,7 +121,12 @@
     <Content Include="Views\web.config" />
     <None Include="packages.config" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Home\Index2.cshtml" />
+    <Content Include="Server\node_modules\ws\LICENSE" />
+    <Content Include="Server\node_modules\ws\package.json" />
+    <Content Include="Server\node_modules\ws\README.md" />
+    <Content Include="Server\node_modules\ws\wrapper.mjs" />
+    <Content Include="Server\package-lock.json" />
+    <Content Include="Server\package.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
