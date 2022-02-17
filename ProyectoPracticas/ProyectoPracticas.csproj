@@ -90,7 +90,6 @@
   <ItemGroup>
     <Content Include="Global.asax" />
     <Content Include="JavaScript\JavaScript.js" />
-    <Content Include="Modules\FireStore-module.js" />
     <Content Include="Server\index.js" />
     <Content Include="Server\node_modules\ws\browser.js" />
     <Content Include="Server\node_modules\ws\index.js" />

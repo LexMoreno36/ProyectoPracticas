@@ -62,45 +62,130 @@ const resetIssuesGrid = () => {
 }
 
 const createIssueCard = (issue) => {
-    const issueCard = document.createElement('div')
+    const issueCard = document.createElement('form')
     const issueContent = document.createElement('div')
-    const title = document.createElement('div')
-    const description = document.createElement('div')
-    const severity = document.createElement('div')
-    const status = document.createElement('div')
-    const asignee = document.createElement('div')
+    const formGroup1 = document.createElement('div')
+    const pTitle = document.createElement('label')
+    const title = document.createElement('input')
+    const formGroup2 = document.createElement('div')
+    const pDescription = document.createElement('label')
+    const description = document.createElement('textarea')
+    const formGroup3 = document.createElement('div')
+    const pSeverity = document.createElement('label')
+    const severity = document.createElement('select')
+    const optionHigh = document.createElement('option')
+    const optionMed = document.createElement('option')
+    const optionLow = document.createElement('option')
+    const formGroup4 = document.createElement('div')
+    const pStatus = document.createElement('label')
+    const status = document.createElement('select')
+    const optionToDo = document.createElement('option')
+    const optionDoing = document.createElement('option')
+    const optionDone = document.createElement('option')
+    const formGroup5 = document.createElement('div')
+    const pAsignee = document.createElement('label')
+    const asignee = document.createElement('select')
+    const optionAsignee = document.createElement('option')
+    const br1 = document.createElement('br')
+    const br2 = document.createElement('br')
+    //const extraNav = document.createElement('nav')
+
     const buttonGroup = document.createElement('div')
     const editBtn = document.createElement('button')
     const removeBtn = document.createElement('button')
+
+    formGroup1.classList.add('form-group')
+    formGroup2.classList.add('form-group')
+    formGroup3.classList.add('form-group')
+    formGroup4.classList.add('form-group')
+    formGroup5.classList.add('form-group')
 
     issueCard.classList.add('issue-card')
     issueContent.classList.add('issue-content')
     buttonGroup.classList.add('button-group')
     editBtn.classList.add('button')
     removeBtn.classList.add('button')
+    //optionAsignee.setAttribute('v-for', 'item in asigneeList')
+    //optionAsignee.setAttribute('id', 'app')
+    title.setAttribute('type', 'text')
 
     removeBtn.onclick = removeIssue
     editBtn.onclick = editIssueCard
 
-    title.textContent = issue.title
+    pTitle.textContent = "Title"
+    pDescription.textContent = "Description"
+    pSeverity.textContent = "Severity"
+    pStatus.textContent = "Status"
+    pAsignee.textContent = "Asignee"
+
+    title.setAttribute('value', issue.title)
     description.textContent = issue.description
     severity.textContent = issue.severity
-    status.textContent = issue.status
-    asignee.textContent = issue.asignee
+    status.setAttribute('value', issue.status)
+    asignee.setAttribute('value', issue.asignee)
+
+    title.classList.add('form-control')
+    description.classList.add('form-control')
+    severity.classList.add('form-select')
+    status.classList.add('form-select')
+    asignee.classList.add('form-select')
+
+    //optionAsignee.textContent = '{{ item.name }}'
+
+    optionHigh.textContent = "High"
+    optionMed.textContent = "Medium"
+    optionLow.textContent = "Low"
+    optionHigh.setAttribute = ('value', 'High')
+    optionMed.setAttribute = ('value', 'Med')
+    optionLow.setAttribute = ('value', 'Low')
+
+    optionToDo.textContent = "To do"
+    optionDoing.textContent = "Doing"
+    optionDone.textContent = "Done"
+    optionToDo.setAttribute = ('value', 'To do')
+    optionDoing.setAttribute = ('value', 'Doing')
+    optionDone.setAttribute = ('value', 'Done')
+
     editBtn.textContent = 'Edit'
     removeBtn.textContent = 'Remove'
 
+    //extraNav.innerHTML = "<script>var app = new Vue({el: \"#app\",data: {asigneeList: []},created: function () {axios.get(url + \"users\").then(function (response) {app.asigneeList = response.data;}).catch(function (error) {console.log(error);})}});</script>";
 
 
-    issueContent.appendChild(title)
-    issueContent.appendChild(description)
-    issueContent.appendChild(severity)
-    issueContent.appendChild(status)
-    issueContent.appendChild(asignee)
+    severity.appendChild(optionHigh)
+    severity.appendChild(optionMed)
+    severity.appendChild(optionLow)
+
+    status.appendChild(optionToDo)
+    status.appendChild(optionDoing)
+    status.appendChild(optionDone)
+
+    asignee.appendChild(optionAsignee)
+
+    formGroup1.appendChild(pTitle)
+    formGroup1.appendChild(br1)
+    formGroup1.appendChild(title)
+    formGroup2.appendChild(pDescription)
+    formGroup2.appendChild(br2)
+    formGroup2.appendChild(description)
+    formGroup3.appendChild(pSeverity)
+    formGroup3.appendChild(severity)
+    formGroup4.appendChild(pStatus)
+    formGroup4.appendChild(status)
+    formGroup5.appendChild(pAsignee)
+    formGroup5.appendChild(asignee)
+
+    issueContent.appendChild(formGroup1)
+    issueContent.appendChild(formGroup2)
+    issueContent.appendChild(formGroup3)
+    issueContent.appendChild(formGroup4)
+    issueContent.appendChild(formGroup5)
+
     issueCard.appendChild(issueContent)
     buttonGroup.appendChild(editBtn)
     buttonGroup.appendChild(removeBtn)
     issueCard.appendChild(buttonGroup)
+    //issueCard.appendChild(extraNav)
     issuesGrid.appendChild(issueCard)
 
 
