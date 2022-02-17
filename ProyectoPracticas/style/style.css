@@ -1,1 +1,153 @@
-﻿
+﻿:root {
+    --white: #fffbfb;
+    --grey: #f0eef1;
+    --black: #050505;
+    --red: #ff7070;
+    --light-green: #9fff9c;
+    --light-red: #ff9c9c;
+    --border-radius: 8px;
+    --spacing-xs: 5px;
+    --spacing-sm: 10px;
+    --spacing-md: 15px;
+    --spacing-lg: 20px;
+    --spacing-xl: 40px;
+    --container-width: 1200px;
+    --shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+
+
+/* CSS RESET */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+html {
+    /* footer support */
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    background-color: var(--grey);
+    color: var(--black);
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    word-wrap: break-word;
+    /* footer support */
+    margin-bottom: 100px;
+}
+
+button,
+input {
+    border: none;
+    color: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    cursor: pointer;
+    outline: none;
+}
+
+    input[type='text'],
+    input[type='number'] {
+        cursor: text;
+    }
+
+
+/* UTILS */
+.container {
+    max-width: var(--container-width);
+    padding: var(--spacing-lg);
+    margin: 0 auto;
+}
+
+.button {
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--border-radius);
+    transition: filter 0.15s ease-in-out;
+}
+
+    .button:hover {
+        filter: brightness(90%);
+    }
+
+    .button:active {
+        transform: scale(0.95);
+        transition: all 0.05s linear
+    }
+
+.btn-add {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.btn-light-green {
+    background-color: var(--light-green);
+}
+
+.btn-light-red {
+    background-color: var(--light-red);
+}
+
+.dissapear {
+    visibility: hidden;
+}
+
+
+/* HEADER */
+.header {
+    background-color: var(--white);
+    box-shadow: var(--shadow);
+}
+
+    .header .container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+
+/* MAIN */
+.form-group {
+    padding: 10px;
+}
+
+.form-control, .form-select {
+    margin: 10px !important
+}
+
+.main {
+    margin-top: var(--spacing-lg);
+    text-align: center;
+}
+
+.issues-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--spacing-xl);
+    margin-top: var(--spacing-xl);
+}
+
+.issue-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-size: 20px;
+    gap: var(--spacing-lg);
+    padding: var(--spacing-lg);
+    border-radius: var(--border-radius);
+    background-color: var(--white);
+    box-shadow: var(--shadow);
+    line-height: 1.2;
+}
+
+.button-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+}

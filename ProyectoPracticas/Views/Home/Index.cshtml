@@ -20,17 +20,24 @@
 
 </head>
 <body>
-    <header>
+    <header class="header">
+        <div class="container">
+            <h1>Issue Manager</h1>
+        </div>
     </header>
 
-    <main>
-        <div id="root">
-            <h1>{{msg}}</h1>
-            <select class="form-select" aria-label="Default select example">
-                <option selected>Open this select menu</option>
-                <option v-for="item in users">{{item.name}}</option>
-            </select>
-        </div>
+    <main class="main container" id="root">
+        @*<div class="" id="root">
+                <h1 class="">{{msg}}</h1>
+                <select class="form-select" aria-label="Default select example">
+                    <option selected>Open this select menu</option>
+                    <option v-for="item in asigneeList">{{item.name}}</option>
+                </select>
+            </div>*@
+
+        <button class="button btn-add" id="addIssueBtn">+ Add Issue</button>
+        <div class="issues-grid" id="issuesGrid"></div>
+
     </main>
 
     <footer>
@@ -39,15 +46,15 @@
             var app = new Vue({
                 el: "#root",
                 data: {
-                    msg: "Proyecto",
-                    users: []
+                    /*msg: "Proyecto",*/
+                    asigneeList: []
                 },
 
                 created: function () {
                     axios.get(url + "users")
                         .then(function (response) {
-                            console.table(response.data);
-                            app.users = response.data;
+                            /*console.table(response.data);*/
+                            app.asigneeList = response.data;
                         })
                         .catch(function (error) {
                             console.log(error);
@@ -67,16 +74,10 @@
 
 
         </script>
-        <script type="module">
-            // Import the functions you need from the SDKs you need
-            import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
-            import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-analytics.js";
-            import { getFirestore } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-firestore.js";
-            // TODO: Add SDKs for Firebase products that you want to use
-            // https://firebase.google.com/docs/web/setup#available-libraries
+        <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-firestore.js"></script>
 
-            // Your web app's Firebase configuration
-            // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        <script>
             const firebaseConfig = {
                 apiKey: "AIzaSyBug1r28BxHjsRCdgAbie1lyYcXERyv-ZE",
                 authDomain: "proyectopracticas-c146e.firebaseapp.com",
@@ -86,30 +87,7 @@
                 appId: "1:886989010593:web:bcd37ad30713939b9622e0",
                 measurementId: "G-KF72HYK7NG"
             };
-
-            // Initialize Firebase
-            const app = initializeApp(firebaseConfig);
-            const analytics = getAnalytics(app);
-            var db = getFirestore();
-
-
-            import { collection, getDocs, addDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-firestore.js";
-
-            const querySnapshot = await getDocs(collection(db, "Issues"));
-            querySnapshot.forEach((doc) => {
-                console.table(doc.data());
-            });
-                    //for (let i = 0; i < 3; i++) {
-                    //    var docref = await adddoc(collection(db, "issues"), {
-                    //        id: i,
-                    //        title: "title" + i,
-                    //        description: "description" + i,
-                    //        severity: "severity" + i,
-                    //        status: "status" + i,
-                    //        asignee: "asignee" + i
-                    //    })
-                    //    console.log(docref.id);
-                    //}
+            firebase.initializeApp(firebaseConfig)
 
         </script>
         <script src="~/JavaScript/JavaScript.js"></script>
