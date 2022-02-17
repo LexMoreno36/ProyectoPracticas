@@ -90,7 +90,6 @@
   <ItemGroup>
     <Content Include="Global.asax" />
     <Content Include="JavaScript\JavaScript.js" />
-    <Content Include="JavaScript\JavaScript2.js" />
     <Content Include="Modules\FireStore-module.js" />
     <Content Include="Server\index.js" />
     <Content Include="Server\node_modules\ws\browser.js" />
@@ -109,8 +108,6 @@
     <Content Include="Server\node_modules\ws\lib\websocket-server.js" />
     <Content Include="Server\node_modules\ws\lib\websocket.js" />
     <Content Include="style\style.css" />
-    <Content Include="style\style2.css" />
-    <Content Include="Views\Home\Index2.cshtml" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
