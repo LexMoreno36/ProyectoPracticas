@@ -1,5 +1,6 @@
 ﻿
-
+//***********************************************************************
+//FireBase FireStore config info
 const firebaseConfig = {
     apiKey: "AIzaSyBug1r28BxHjsRCdgAbie1lyYcXERyv-ZE",
     authDomain: "proyectopracticas-c146e.firebaseapp.com",
@@ -11,213 +12,75 @@ const firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig)
 const db = firebase.firestore()
-window.addEventListener('load', (event) => {
-    console.log('The page has fully loaded');
-    //setupRealTimeListener();
-    console.log(issueLibrary);
-});
+//***********************************************************************
 
-//Data Structure
+//Object creation so it's easer to manipulate the issues
 class Issue {
     constructor(
         title = '',
         description = '',
         severity = '',
         status = '',
-        asignee = ''
+        asignee = '',
+        asigneeId = ''
     ) {
         this.title = title;
         this.description = description;
         this.severity = severity;
         this.status = status;
         this.asignee = asignee;
-    }
-}
-class IssueLibrary {
-    constructor() { this.issues = [] }
-
-    addIssue(newIssue) {
-        this.issues.push(newIssue)
-    }
-    removeIssue(id) {
-        this.issues = this.issues.filter((issue) => issue.id !== id)
-    }
-    removeAllIssues() {
-        this.issues = []
-    }
-    getIssue(id) {
-        return this.issues.find((issue) => issue.id === id)
+        this.asigneeId = asigneeId;
     }
 }
 
-const issueLibrary = new IssueLibrary()
-//issueLibrary.removeAllIssues();
+var issue
 
-//INTERFACE
-
-
-const addIssueBtn = document.getElementById('addIssueBtn')
-const addIssueModal = document.getElementById('addIssueModal')
-const errorMsg = document.getElementById('errorMsg')
-const addIssueForm = document.getElementById('addIssueForm')
-const issuesGrid = document.getElementById('issuesGrid')
-
-const updateIssuesGrid = () => {
-    resetIssuesGrid()
-    for (let issue of issueLibrary.issues) {
-        createIssueCard(issue)
-    }
-}
-const resetIssuesGrid = () => {
-    issuesGrid.innerHTML = ''
-}
-
-
-//DB
-
-
-//FIRESTORE
-
-let unsubscribe
-var z = 0;
-
-
-
-const addIssueDB = (newIssue) => {
-    db.collection('Issue').add(issueToDoc(newIssue))
-}
-
-const removeIssueDB = async (title) => {
-    db.collection('Issue')
-        .doc(await getIssueIdDB(title))
-        .delete()
-}
-
-const getIssueIdDB = async (title) => {
-    const snapshot = await db
-        .collection('Issue')
-        .where('title', '==', title)
-        .get()
-    const issueId = snapshot.docs.map((doc) => doc.id).join('')
-    return issueId
-}
-const setupRealTimeListener = () => {
-    unsubscribe = db
-        .collection('Issue')
-        .orderBy('createdAt')
-        .onSnapshot((snapshot) => {
-            issueLibrary.issues = docsToIssues(snapshot.docs)
-            updateIssuesGrid()
-        })
-}
-
-//Util
-const issueToDoc = (issue) => {
-    return {
-        title: issue.title,
-        description: issue.description,
-        severity: issue.severity,
-        status: issue.status,
-        asignee: issue.asignee
-    }
-}
-
-const docsToIssues = (docs) => {
-    return docs.map((doc) => {
-        return new Issue(
-            doc.data().title,
-            doc.data().description,
-            doc.data().severity,
-            doc.data().status,
-            doc.data().asignee
-        )
-    })
-}
-
-const docToIssue = (doc) => {
-    return new Issue(
-        doc.data().title,
-        doc.data().description,
-        doc.data().severity,
-        doc.data().status,
-        doc.data().asignee
-    )
-
-}
-
-var issuesRef = db.collection("IssueDB")
-
-const getInputValue = id => document.getElementById(id).value
-
+//DOM REQUESTS -> Used to send/recieve data to fireStore
 const form = document.getElementById("issueForm")
 const title = document.querySelector(".title-class")
 const description = document.querySelector(".description-class")
 const severity = document.querySelector(".severity-class")
 const status = document.querySelector(".status-class")
 const asignee = document.querySelector(".asignee-class")
-const submit = document.querySelector(".submit-class")
 
-submit.addEventListener("click", (e) => {
-    e.preventDefault();
+
+
+//Initial data from fireStore, stored from other sessions
+db.collection("IssueDB").doc("IssueDBId").get().then((doc) => {
+
+    //creates an object "Issue" with the data allocated in the firestore DB
+    issue = new Issue(doc.data().title, doc.data().description, doc.data().severity, doc.data().status, doc.data().asignee, doc.data().asigneeId)
+
+
+    //restores the title value and the description value from the object "issue"
+    title.setAttribute('value', issue.title)
+    description.textContent = issue.description
+
+
+    //Selects the option that matches with the object's value
+    var selected1 = document.querySelector(`.${issue.severity}`)
+    selected1.setAttribute('selected', 'selected')
+
+    var selected2 = document.querySelector(`.${issue.status}`)
+    selected2.setAttribute('selected', 'selected')
+
+    var selected3 = document.querySelector(`.${issue.asigneeId}`)
+    selected3.setAttribute('selected', 'selected')
+
+})
+
+
+//AUTOSAVE -> Just a setInterval with the content of a submit. We send all our data to the DB within intervals of 1 sec
+setInterval(() => {
     db.collection("IssueDB").doc("IssueDBId").set({
         title: title.value,
         description: description.value,
         severity: severity.options[severity.selectedIndex].text,
         status: status.options[status.selectedIndex].text,
-        asignee: asignee.options[asignee.selectedIndex].text
+        asignee: asignee.options[asignee.selectedIndex].text,
+        asigneeId: asignee.options[asignee.selectedIndex].value
     }).then(() => {
-        console.log("Document succesfully writen")
     }).catch((error) => {
         console.error("Error writing document: ", error)
     })
-})
-
-
-//for (let i = 0; i < 3; i++) {
-//    db.collection("Issues").add({
-//        id: i,
-//        title: "title" + i,
-//        description: "description" + i,
-//        severity: "severity" + i,
-//        status: "status" + i,
-//        asignee: "asignee" + i,
-//        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-//    }).then(() => {
-//        console.log("Document successfully written!");
-//    })
-//}
-
-//document.getElementById("issueForm").addEventListener("submit", submitForm)
-
-//function submitForm(e) {
-//    e.preventDefault();
-
-//    var title = getInputValue("title")
-//    var description = getInputValue("description")
-//    var severity = getInputValue("severity")
-//    var status = getInputValue("status")
-//    var asignee = getInputValue("asignee")
-
-//    saveIssue(title, description, severity, status, asignee);
-//}
-
-
-//function saveIssue(title, description, severity, status, asignee) {
-//    issuesRef.add({
-//        title: title,
-//        description: description,
-//        severity: severity,
-//        status: status,
-//        asignee: asignee
-//    })
-//}
-
-//setInterval(function () {
-//    var form = $('#issueForm');
-//    var method = form.attr('post').toLowerCase();      // "get" or "post"
-//    var action = form.attr('submit');                    // url to submit to
-//    $[method](action, form.serialize(), function (data) {
-//        // Do something with the server response data      
-//        // Or at least let the user know it saved
-//    });
-//}, 10000);
+}, 1000)
