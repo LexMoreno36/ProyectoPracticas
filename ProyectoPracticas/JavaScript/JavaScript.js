@@ -1,20 +1,31 @@
-﻿window.addEventListener('load', (event) => {
+﻿
+
+const firebaseConfig = {
+    apiKey: "AIzaSyBug1r28BxHjsRCdgAbie1lyYcXERyv-ZE",
+    authDomain: "proyectopracticas-c146e.firebaseapp.com",
+    projectId: "proyectopracticas-c146e",
+    storageBucket: "proyectopracticas-c146e.appspot.com",
+    messagingSenderId: "886989010593",
+    appId: "1:886989010593:web:bcd37ad30713939b9622e0",
+    measurementId: "G-KF72HYK7NG"
+};
+firebase.initializeApp(firebaseConfig)
+const db = firebase.firestore()
+window.addEventListener('load', (event) => {
     console.log('The page has fully loaded');
-    setupRealTimeListener();
+    //setupRealTimeListener();
     console.log(issueLibrary);
 });
 
 //Data Structure
 class Issue {
     constructor(
-        id = '',
         title = '',
         description = '',
         severity = '',
         status = '',
         asignee = ''
     ) {
-        this.id = id;
         this.title = title;
         this.description = description;
         this.severity = severity;
@@ -40,7 +51,7 @@ class IssueLibrary {
 }
 
 const issueLibrary = new IssueLibrary()
-issueLibrary.removeAllIssues();
+//issueLibrary.removeAllIssues();
 
 //INTERFACE
 
@@ -61,278 +72,106 @@ const resetIssuesGrid = () => {
     issuesGrid.innerHTML = ''
 }
 
-const createIssueCard = (issue) => {
-    const issueCard = document.createElement('form')
-    const issueContent = document.createElement('div')
-    const formGroup1 = document.createElement('div')
-    const pTitle = document.createElement('label')
-    const title = document.createElement('input')
-    const formGroup2 = document.createElement('div')
-    const pDescription = document.createElement('label')
-    const description = document.createElement('textarea')
-    const formGroup3 = document.createElement('div')
-    const pSeverity = document.createElement('label')
-    const severity = document.createElement('select')
-    const optionHigh = document.createElement('option')
-    const optionMed = document.createElement('option')
-    const optionLow = document.createElement('option')
-    const formGroup4 = document.createElement('div')
-    const pStatus = document.createElement('label')
-    const status = document.createElement('select')
-    const optionToDo = document.createElement('option')
-    const optionDoing = document.createElement('option')
-    const optionDone = document.createElement('option')
-    const formGroup5 = document.createElement('div')
-    const pAsignee = document.createElement('label')
-    const asignee = document.createElement('select')
-    const optionAsignee = document.createElement('option')
-    const br1 = document.createElement('br')
-    const br2 = document.createElement('br')
-    //const extraNav = document.createElement('nav')
-
-    const buttonGroup = document.createElement('div')
-    const editBtn = document.createElement('button')
-    const removeBtn = document.createElement('button')
-
-    formGroup1.classList.add('form-group')
-    formGroup2.classList.add('form-group')
-    formGroup3.classList.add('form-group')
-    formGroup4.classList.add('form-group')
-    formGroup5.classList.add('form-group')
-
-    issueCard.classList.add('issue-card')
-    issueContent.classList.add('issue-content')
-    buttonGroup.classList.add('button-group')
-    editBtn.classList.add('button')
-    removeBtn.classList.add('button')
-    //optionAsignee.setAttribute('v-for', 'item in asigneeList')
-    //optionAsignee.setAttribute('id', 'app')
-    title.setAttribute('type', 'text')
-
-    removeBtn.onclick = removeIssue
-    editBtn.onclick = editIssueCard
-
-    pTitle.textContent = "Title"
-    pDescription.textContent = "Description"
-    pSeverity.textContent = "Severity"
-    pStatus.textContent = "Status"
-    pAsignee.textContent = "Asignee"
-
-    title.setAttribute('value', issue.title)
-    description.textContent = issue.description
-    severity.textContent = issue.severity
-    status.setAttribute('value', issue.status)
-    asignee.setAttribute('value', issue.asignee)
-
-    title.classList.add('form-control')
-    description.classList.add('form-control')
-    severity.classList.add('form-select')
-    status.classList.add('form-select')
-    asignee.classList.add('form-select')
-
-    //optionAsignee.textContent = '{{ item.name }}'
-
-    optionHigh.textContent = "High"
-    optionMed.textContent = "Medium"
-    optionLow.textContent = "Low"
-    optionHigh.setAttribute = ('value', 'High')
-    optionMed.setAttribute = ('value', 'Med')
-    optionLow.setAttribute = ('value', 'Low')
-
-    optionToDo.textContent = "To do"
-    optionDoing.textContent = "Doing"
-    optionDone.textContent = "Done"
-    optionToDo.setAttribute = ('value', 'To do')
-    optionDoing.setAttribute = ('value', 'Doing')
-    optionDone.setAttribute = ('value', 'Done')
-
-    editBtn.textContent = 'Edit'
-    removeBtn.textContent = 'Remove'
-
-    //extraNav.innerHTML = "<script>var app = new Vue({el: \"#app\",data: {asigneeList: []},created: function () {axios.get(url + \"users\").then(function (response) {app.asigneeList = response.data;}).catch(function (error) {console.log(error);})}});</script>";
-
-
-    severity.appendChild(optionHigh)
-    severity.appendChild(optionMed)
-    severity.appendChild(optionLow)
-
-    status.appendChild(optionToDo)
-    status.appendChild(optionDoing)
-    status.appendChild(optionDone)
-
-    asignee.appendChild(optionAsignee)
-
-    formGroup1.appendChild(pTitle)
-    formGroup1.appendChild(br1)
-    formGroup1.appendChild(title)
-    formGroup2.appendChild(pDescription)
-    formGroup2.appendChild(br2)
-    formGroup2.appendChild(description)
-    formGroup3.appendChild(pSeverity)
-    formGroup3.appendChild(severity)
-    formGroup4.appendChild(pStatus)
-    formGroup4.appendChild(status)
-    formGroup5.appendChild(pAsignee)
-    formGroup5.appendChild(asignee)
-
-    issueContent.appendChild(formGroup1)
-    issueContent.appendChild(formGroup2)
-    issueContent.appendChild(formGroup3)
-    issueContent.appendChild(formGroup4)
-    issueContent.appendChild(formGroup5)
-
-    issueCard.appendChild(issueContent)
-    buttonGroup.appendChild(editBtn)
-    buttonGroup.appendChild(removeBtn)
-    issueCard.appendChild(buttonGroup)
-    //issueCard.appendChild(extraNav)
-    issuesGrid.appendChild(issueCard)
-
-
-}
-
-
-const createBlankIssueCard = (issue) => {
-
-    const issueCard = document.createElement('form')
-    const issueContent = document.createElement('div')
-    const formGroup1 = document.createElement('div')
-    const pTitle = document.createElement('label')
-    const title = document.createElement('input')
-    const formGroup2 = document.createElement('div')
-    const pDescription = document.createElement('label')
-    const description = document.createElement('textarea')
-    const formGroup3 = document.createElement('div')
-    const pSeverity = document.createElement('label')
-    const severity = document.createElement('select')
-    const optionHigh = document.createElement('option')
-    const optionMed = document.createElement('option')
-    const optionLow = document.createElement('option')
-    const formGroup4 = document.createElement('div')
-    const pStatus = document.createElement('label')
-    const status = document.createElement('select')
-    const optionToDo = document.createElement('option')
-    const optionDoing = document.createElement('option')
-    const optionDone = document.createElement('option')
-    const formGroup5 = document.createElement('div')
-    const pAsignee = document.createElement('label')
-    const asignee = document.createElement('select')
-    const optionAsignee = document.createElement('option')
-    const br1 = document.createElement('br')
-    const br2 = document.createElement('br')
-    //const extraNav = document.createElement('nav')
-
-    const buttonGroup = document.createElement('div')
-    const editBtn = document.createElement('button')
-    const removeBtn = document.createElement('button')
-
-    formGroup1.classList.add('form-group')
-    formGroup2.classList.add('form-group')
-    formGroup3.classList.add('form-group')
-    formGroup4.classList.add('form-group')
-    formGroup5.classList.add('form-group')
-
-    issueCard.classList.add('issue-card')
-    issueContent.classList.add('issue-content')
-    buttonGroup.classList.add('button-group')
-    editBtn.classList.add('button')
-    removeBtn.classList.add('button')
-    //optionAsignee.setAttribute('v-for', 'item in asigneeList')
-    //optionAsignee.setAttribute('id', 'app')
-    title.setAttribute('type', 'text')
-
-    removeBtn.onclick = removeIssue
-    editBtn.onclick = editIssueCard
-
-    pTitle.textContent = "Title"
-    pDescription.textContent = "Description"
-    pSeverity.textContent = "Severity"
-    pStatus.textContent = "Status"
-    pAsignee.textContent = "Asignee"
-
-    title.classList.add('form-control')
-    description.classList.add('form-control')
-    severity.classList.add('form-select')
-    status.classList.add('form-select')
-    asignee.classList.add('form-select')
-
-    //optionAsignee.textContent = '{{ item.name }}'
-
-    optionHigh.textContent = "High"
-    optionMed.textContent = "Medium"
-    optionLow.textContent = "Low"
-
-    optionToDo.textContent = "To do"
-    optionDoing.textContent = "Doing"
-    optionDone.textContent = "Done"
-
-    editBtn.textContent = 'Edit'
-    removeBtn.textContent = 'Remove'
-
-    //extraNav.innerHTML = "<script>var app = new Vue({el: \"#app\",data: {asigneeList: []},created: function () {axios.get(url + \"users\").then(function (response) {app.asigneeList = response.data;}).catch(function (error) {console.log(error);})}});</script>";
-
-
-    severity.appendChild(optionHigh)
-    severity.appendChild(optionMed)
-    severity.appendChild(optionLow)
-
-    status.appendChild(optionToDo)
-    status.appendChild(optionDoing)
-    status.appendChild(optionDone)
-
-    asignee.appendChild(optionAsignee)
-
-    formGroup1.appendChild(pTitle)
-    formGroup1.appendChild(br1)
-    formGroup1.appendChild(title)
-    formGroup2.appendChild(pDescription)
-    formGroup2.appendChild(br2)
-    formGroup2.appendChild(description)
-    formGroup3.appendChild(pSeverity)
-    formGroup3.appendChild(severity)
-    formGroup4.appendChild(pStatus)
-    formGroup4.appendChild(status)
-    formGroup5.appendChild(pAsignee)
-    formGroup5.appendChild(asignee)
-
-    issueContent.appendChild(formGroup1)
-    issueContent.appendChild(formGroup2)
-    issueContent.appendChild(formGroup3)
-    issueContent.appendChild(formGroup4)
-    issueContent.appendChild(formGroup5)
-
-    issueCard.appendChild(issueContent)
-    buttonGroup.appendChild(editBtn)
-    buttonGroup.appendChild(removeBtn)
-    issueCard.appendChild(buttonGroup)
-    //issueCard.appendChild(extraNav)
-    issuesGrid.appendChild(issueCard)
-
-}
-const editIssueCard = (issue) => {
-
-}
-const removeIssue = (e) => {
-    const title = e.target.parentNode.parentNode.firstChild.firstChild.innerHTML.replaceAll(
-        '"',
-        ''
-    )
-    /* issueLibrary.removeIssue(title)*/
-    removeIssueDB(title)
-    updateIssuesGrid()
-
-}
-
-
-
 
 //DB
 
 
 //FIRESTORE
-const db = firebase.firestore()
+
 let unsubscribe
 var z = 0;
+
+
+
+const addIssueDB = (newIssue) => {
+    db.collection('Issue').add(issueToDoc(newIssue))
+}
+
+const removeIssueDB = async (title) => {
+    db.collection('Issue')
+        .doc(await getIssueIdDB(title))
+        .delete()
+}
+
+const getIssueIdDB = async (title) => {
+    const snapshot = await db
+        .collection('Issue')
+        .where('title', '==', title)
+        .get()
+    const issueId = snapshot.docs.map((doc) => doc.id).join('')
+    return issueId
+}
+const setupRealTimeListener = () => {
+    unsubscribe = db
+        .collection('Issue')
+        .orderBy('createdAt')
+        .onSnapshot((snapshot) => {
+            issueLibrary.issues = docsToIssues(snapshot.docs)
+            updateIssuesGrid()
+        })
+}
+
+//Util
+const issueToDoc = (issue) => {
+    return {
+        title: issue.title,
+        description: issue.description,
+        severity: issue.severity,
+        status: issue.status,
+        asignee: issue.asignee
+    }
+}
+
+const docsToIssues = (docs) => {
+    return docs.map((doc) => {
+        return new Issue(
+            doc.data().title,
+            doc.data().description,
+            doc.data().severity,
+            doc.data().status,
+            doc.data().asignee
+        )
+    })
+}
+
+const docToIssue = (doc) => {
+    return new Issue(
+        doc.data().title,
+        doc.data().description,
+        doc.data().severity,
+        doc.data().status,
+        doc.data().asignee
+    )
+
+}
+
+var issuesRef = db.collection("IssueDB")
+
+const getInputValue = id => document.getElementById(id).value
+
+const form = document.getElementById("issueForm")
+const title = document.querySelector(".title-class")
+const description = document.querySelector(".description-class")
+const severity = document.querySelector(".severity-class")
+const status = document.querySelector(".status-class")
+const asignee = document.querySelector(".asignee-class")
+const submit = document.querySelector(".submit-class")
+
+submit.addEventListener("click", (e) => {
+    e.preventDefault();
+    db.collection("IssueDB").doc("IssueDBId").set({
+        title: title.value,
+        description: description.value,
+        severity: severity.options[severity.selectedIndex].text,
+        status: status.options[status.selectedIndex].text,
+        asignee: asignee.options[asignee.selectedIndex].text
+    }).then(() => {
+        console.log("Document succesfully writen")
+    }).catch((error) => {
+        console.error("Error writing document: ", error)
+    })
+})
+
 
 //for (let i = 0; i < 3; i++) {
 //    db.collection("Issues").add({
@@ -348,78 +187,37 @@ var z = 0;
 //    })
 //}
 
+//document.getElementById("issueForm").addEventListener("submit", submitForm)
+
+//function submitForm(e) {
+//    e.preventDefault();
+
+//    var title = getInputValue("title")
+//    var description = getInputValue("description")
+//    var severity = getInputValue("severity")
+//    var status = getInputValue("status")
+//    var asignee = getInputValue("asignee")
+
+//    saveIssue(title, description, severity, status, asignee);
+//}
 
 
+//function saveIssue(title, description, severity, status, asignee) {
+//    issuesRef.add({
+//        title: title,
+//        description: description,
+//        severity: severity,
+//        status: status,
+//        asignee: asignee
+//    })
+//}
 
-//db.collection("Issues").get().then((querySnapshot) => {
-//    querySnapshot.forEach((doc) => {
-//        issueLibrary.addIssue(docToIssue(doc));
+//setInterval(function () {
+//    var form = $('#issueForm');
+//    var method = form.attr('post').toLowerCase();      // "get" or "post"
+//    var action = form.attr('submit');                    // url to submit to
+//    $[method](action, form.serialize(), function (data) {
+//        // Do something with the server response data      
+//        // Or at least let the user know it saved
 //    });
-//});
-
-const addIssueDB = (newIssue) => {
-    db.collection('Issues').add(issueToDoc(newIssue))
-}
-
-const removeIssueDB = async (title) => {
-    db.collection('Issues')
-        .doc(await getIssueIdDB(title))
-        .delete()
-}
-
-const getIssueIdDB = async (title) => {
-    const snapshot = await db
-        .collection('Issues')
-        .where('title', '==', title)
-        .get()
-    const issueId = snapshot.docs.map((doc) => doc.id).join('')
-    return issueId
-}
-const setupRealTimeListener = () => {
-    unsubscribe = db
-        .collection('Issues')
-        .orderBy('createdAt')
-        .onSnapshot((snapshot) => {
-            issueLibrary.issues = docsToIssues(snapshot.docs)
-            updateIssuesGrid()
-        })
-}
-
-//Util
-const issueToDoc = (issue) => {
-    return {
-        id: issue.id,
-        title: issue.title,
-        description: issue.description,
-        severity: issue.severity,
-        status: issue.status,
-        asignee: issue.asignee
-    }
-}
-
-const docsToIssues = (docs) => {
-    return docs.map((doc) => {
-        return new Issue(
-            doc.data().id,
-            doc.data().title,
-            doc.data().description,
-            doc.data().severity,
-            doc.data().status,
-            doc.data().asignee
-        )
-    })
-}
-
-const docToIssue = (doc) => {
-    return new Issue(
-        doc.data().id,
-        doc.data().title,
-        doc.data().description,
-        doc.data().severity,
-        doc.data().status,
-        doc.data().asignee
-    )
-
-}
-//BUTTONS
-addIssueBtn.onclick = createBlankIssueCard
+//}, 10000);
